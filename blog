@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Блоговая платформа</title>
+    <style>
+        .blog {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Блоговая платформа</h1>
+
+    <h2>Список блогов:</h2>
+    <ul id="blog-list"></ul>
+
+    <form id="add-blog-form">
+        <input type="text" id="title-input" placeholder="Заголовок">
+        <textarea id="content-input" placeholder="Содержание"></textarea>
+        <button type="submit">Добавить блог</button>
+    </form>
+
+    <script>
+        var blogList = document.getElementById("blog-list");
+        var addBlogForm = document.getElementById("add-blog-form");
+
+        var blogs = [];
+
+        // Отображение списка блогов
+        function renderBlogList() {
+            blogList.innerHTML = "";
+            blogs.forEach(function(blog) {
+                var blogElement = document.createElement("li");
+                blogElement.classList.add("blog");
+                blogElement.innerHTML = "<h3>" + blog.title + "</h3><p>" + blog.content + "</p>";
+                blogList.appendChild(blogElement);
+            });
+        }
+
+        // Обработчик отправки формы добавления блога
+        addBlogForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            var titleInput = document.getElementById("title-input");
+            var contentInput = document.getElementById("content-input");
+            var newBlog = {
+                title: titleInput.value.trim(),
+                content: contentInput.value.trim()
+            };
+            if (newBlog.title !== "" && newBlog.content !== "") {
+                blogs.push(newBlog);
+                renderBlogList();
+                titleInput.value = "";
+                contentInput.value = "";
+            }
+        });
+
+        // Загрузка и отображение списка блогов при инициализации страницы
+        window.addEventListener("DOMContentLoaded", function() {
+            // Здесь может быть логика загрузки списка блогов с сервера или из базы данных
+            var blog1 = {
+                title: "Заголовок блога 1",
+                content: "Содержание блога 1"
+            };
+            var blog2 = {
+                title: "Заголовок блога 2",
+                content: "Содержание блога 2"
+            };
+            blogs.push(blog1, blog2);
+            renderBlogList();
+        });
+    </script>
+</body>
+</html>
